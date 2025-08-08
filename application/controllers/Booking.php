@@ -123,7 +123,7 @@ class Booking extends EA_Controller
                 'page_title' => lang('page_title') . ' ' . $company_name,
                 'message_title' => lang('booking_is_disabled'),
                 'message_text' => $disable_booking_message,
-                'message_icon' => "https://cloud.byjonas.be/s/rj7RzFSdeHrLNXp",
+                'message_icon' => "https://byjonas.be/assets/images//logo/jonas_logo_black.png",
                 'google_analytics_code' => $google_analytics_code,
                 'matomo_analytics_url' => $matomo_analytics_url,
                 'matomo_analytics_site_id' => $matomo_analytics_site_id,
