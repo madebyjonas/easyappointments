@@ -82,6 +82,23 @@
                 <i class="fas fa-sync-alt"></i>
             </button>
 
+            <button id="btn-import-busy" class="btn btn-warning">Import appointements</button>
+            <script>
+            document.getElementById('btn-import-busy').addEventListener('click', async () => {
+                const providerId = 2; // get from your page context
+                const res = await fetch('calendar/import_busy_slots?provider_id=' + providerId, {
+                credentials: 'same-origin'
+                });
+                const data = await res.json();
+                if (res.ok) {
+                alert('Imported ' + data.imported + ' busy slots');
+                location.reload();
+                } else {
+                alert('Import failed: ' + (data.error || 'unknown error'));
+                }
+            });
+            </script>
+
             <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
                 <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">

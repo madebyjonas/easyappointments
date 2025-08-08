@@ -57,6 +57,14 @@ class Backend_api extends EA_Controller
         redirect('calendar/get_calendar_appointments');
     }
 
+     /**
+     * Get the registered appointments for the given date period and record.
+     */
+    public function ajax_import_busy_slots(): void
+    {
+        redirect('calendar/import_busy_slots');
+    }
+
     /**
      * Save appointment changes that are made from the backend calendar page.
      */

@@ -804,4 +804,55 @@ class Calendar extends EA_Controller
             json_exception($e);
         }
     }
+
+    public function import_busy_slots() : void
+    {
+        try {
+
+            $providerId = (int) request('provider_id');  // pass from UI (or default)
+            if (!$providerId) {
+                json_response(['error' => 'Missing provider_id'], 422);
+                return;
+            }
+
+            $busyApiUrl = env('BUSYAPI_URL', 'http://188.245.60.143:4000/api/busy-times'); // set in .env / Docker
+            $json = @file_get_contents($busyApiUrl);
+            if ($json === false) {
+                json_response(['error' => 'BusyAPI not reachable'], 502);
+                return;
+            }
+            $slots = json_decode($json, true) ?: [];
+
+            // Models
+            $this->load->model('unavailabilities_model');
+
+            // Optional: clear previous imports (tagged)
+            $this->db->where('id_users_provider', $providerId)
+                     ->like('notes', '[busyapi]', 'after')
+                     ->where('is_unavailability', 1)
+                     ->delete('appointments');
+
+            $added = 0;
+            foreach ($slots as $slot) {
+                // Expect ISO8601 in UTC from BusyAPI
+                $start = new DateTime($slot['start'], new DateTimeZone('UTC'));
+                $end   = new DateTime($slot['end'],   new DateTimeZone('UTC'));
+
+                // Store as UTC (EA handles display/timezone elsewhere)
+                $this->unavailabilities_model->save([
+                    'id_users_provider' => $providerId,
+                    'start_datetime'    => $start->format('Y-m-d H:i:s'),
+                    'end_datetime'      => $end->format('Y-m-d H:i:s'),
+                    'notes'             => '[busyapi] external busy slot',
+                    'is_unavailability' => 1,
+                ]);
+                $added++;
+            }
+
+            json_response(['status' => 'ok', 'imported' => $added]);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
 }
