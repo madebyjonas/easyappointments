@@ -99,20 +99,6 @@
             });
             </script>
 
-            <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
-                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=table') ?>"
-                   data-tippy-content="<?= lang('table') ?>">
-                    <i class="fas fa-table"></i>
-                </a>
-            <?php endif; ?>
-
-            <?php if (vars('calendar_view') === CALENDAR_VIEW_TABLE): ?>
-                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=default') ?>"
-                   data-tippy-content="<?= lang('default') ?>">
-                    <i class="fas fa-calendar-alt"></i>
-                </a>
-            <?php endif; ?>
-
             <?php slot('after_calendar_actions'); ?>
         </div>
     </div>
