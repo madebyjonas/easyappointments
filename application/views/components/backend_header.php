@@ -9,7 +9,7 @@
 
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
-        <img src="<?= base_url('https://byjonas.be/assets/images//logo/logo_jonas.png') ?>" alt="logo">
+        <img src="https://byjonas.be/assets/images//logo/logo_jonas.png" alt="logo">
         <h6>Booking by Jonas</h6>
         <small>Online Appointment Scheduler</small>
     </div>
